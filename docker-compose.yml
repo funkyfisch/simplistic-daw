@@ -1,0 +1,24 @@
+version: '3.2'
+
+services: 
+
+  simplistic-daw:
+    build:
+      context: .
+      dockerfile: docker/dev/Dockerfile
+    image: simplistic-daw
+    container_name: simplistic-daw
+    volumes:
+      - type: bind
+        source: /tmp/.X11-unix
+        target: /tmp/.X11-unix
+      - type: bind
+        source: ./electron/
+        target: /usr/share/app
+    command: "sh ./bin/startup.sh"
+    environment:
+      - DISPLAY=unix:0
+    logging:
+      options:
+        max-size: "200k"
+        max-file: "10"
